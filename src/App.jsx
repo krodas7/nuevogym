@@ -34,6 +34,37 @@ function AppContent() {
   const [notificacionSensor, setNotificacionSensor] = useState(null);
   const { theme, toggleTheme } = useTheme();
 
+  // Definir permisos por rol
+  const permisosPorRol = {
+    admin: {
+      dashboard: true,
+      clientes: true,
+      asistencias: true,
+      membresias: true,
+      renovar: true,
+      reportes: true,
+      usuarios: true,
+      configuracion: true
+    },
+    usuario: {
+      dashboard: false,
+      clientes: true,
+      asistencias: false,
+      membresias: true,
+      renovar: true,
+      reportes: false,
+      usuarios: false,
+      configuracion: false
+    }
+  };
+
+  // Verificar si el usuario tiene permiso para un módulo
+  const tienePermiso = (modulo) => {
+    if (!usuario) return false;
+    const rol = usuario.rol || 'usuario';
+    return permisosPorRol[rol]?.[modulo] || false;
+  };
+
   useEffect(() => {
     console.log('🚀 App iniciando...');
     // Verificar si hay sesión guardada
@@ -121,38 +152,54 @@ function AppContent() {
           </div>
           
           <nav className="sidebar-nav">
-            <NavLink to="/" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <ChartBarIcon className="nav-icon" />
-              Dashboard
-            </NavLink>
-            <NavLink to="clientes" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <UsersIcon className="nav-icon" />
-              Clientes
-            </NavLink>
-            <NavLink to="asistencias" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <CheckCircleIcon className="nav-icon" />
-              Asistencias
-            </NavLink>
-            <NavLink to="membresias" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <TicketIcon className="nav-icon" />
-              Tipos de Membresía
-            </NavLink>
-            <NavLink to="renovar" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <ArrowPathIcon className="nav-icon" />
-              Renovar Membresías
-            </NavLink>
-            <NavLink to="reportes" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <DocumentChartBarIcon className="nav-icon" />
-              Reportes
-            </NavLink>
-            <NavLink to="usuarios" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <UserGroupIcon className="nav-icon" />
-              Usuarios
-            </NavLink>
-            <NavLink to="configuracion" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              <Cog6ToothIcon className="nav-icon" />
-              Configuración
-            </NavLink>
+            {tienePermiso('dashboard') && (
+              <NavLink to="/" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <ChartBarIcon className="nav-icon" />
+                Dashboard
+              </NavLink>
+            )}
+            {tienePermiso('clientes') && (
+              <NavLink to="clientes" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <UsersIcon className="nav-icon" />
+                Clientes
+              </NavLink>
+            )}
+            {tienePermiso('asistencias') && (
+              <NavLink to="asistencias" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <CheckCircleIcon className="nav-icon" />
+                Asistencias
+              </NavLink>
+            )}
+            {tienePermiso('membresias') && (
+              <NavLink to="membresias" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <TicketIcon className="nav-icon" />
+                Tipos de Membresía
+              </NavLink>
+            )}
+            {tienePermiso('renovar') && (
+              <NavLink to="renovar" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <ArrowPathIcon className="nav-icon" />
+                Renovar Membresías
+              </NavLink>
+            )}
+            {tienePermiso('reportes') && (
+              <NavLink to="reportes" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <DocumentChartBarIcon className="nav-icon" />
+                Reportes
+              </NavLink>
+            )}
+            {tienePermiso('usuarios') && (
+              <NavLink to="usuarios" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <UserGroupIcon className="nav-icon" />
+                Usuarios
+              </NavLink>
+            )}
+            {tienePermiso('configuracion') && (
+              <NavLink to="configuracion" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                <Cog6ToothIcon className="nav-icon" />
+                Configuración
+              </NavLink>
+            )}
           </nav>
 
       {/* Información del usuario y logout */}
@@ -160,6 +207,17 @@ function AppContent() {
         <div style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
           <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>{usuario.nombre_completo}</div>
           <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>@{usuario.usuario}</div>
+          <div style={{ 
+            fontSize: '0.65rem', 
+            marginTop: '0.25rem',
+            padding: '0.2rem 0.4rem',
+            background: usuario.rol === 'admin' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(59, 130, 246, 0.2)',
+            borderRadius: '0.25rem',
+            display: 'inline-block',
+            color: usuario.rol === 'admin' ? '#10b981' : '#3b82f6'
+          }}>
+            {usuario.rol === 'admin' ? '👑 Administrador' : '👤 Usuario'}
+          </div>
         </div>
         <button
           onClick={toggleTheme}
@@ -208,15 +266,51 @@ function AppContent() {
         
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="clientes" element={<Clientes />} />
-            <Route path="asistencias" element={<Asistencias />} />
-            <Route path="membresias" element={<TiposMembresia />} />
-            <Route path="renovar" element={<RenovarMembresias />} />
-            <Route path="reportes" element={<Reportes />} />
-            <Route path="usuarios" element={<Usuarios />} />
-            <Route path="configuracion" element={<Configuracion />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route 
+              path="/" 
+              element={
+                tienePermiso('dashboard') ? <Dashboard /> : 
+                tienePermiso('clientes') ? <Navigate to="/clientes" replace /> :
+                tienePermiso('membresias') ? <Navigate to="/membresias" replace /> :
+                <Navigate to="/clientes" replace />
+              } 
+            />
+            <Route 
+              path="clientes" 
+              element={tienePermiso('clientes') ? <Clientes /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="asistencias" 
+              element={tienePermiso('asistencias') ? <Asistencias /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="membresias" 
+              element={tienePermiso('membresias') ? <TiposMembresia /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="renovar" 
+              element={tienePermiso('renovar') ? <RenovarMembresias /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="reportes" 
+              element={tienePermiso('reportes') ? <Reportes /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="usuarios" 
+              element={tienePermiso('usuarios') ? <Usuarios /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="configuracion" 
+              element={tienePermiso('configuracion') ? <Configuracion /> : <Navigate to="/" replace />} 
+            />
+            <Route 
+              path="*" 
+              element={
+                tienePermiso('dashboard') ? <Navigate to="/" replace /> :
+                tienePermiso('clientes') ? <Navigate to="/clientes" replace /> :
+                <Navigate to="/membresias" replace />
+              } 
+            />
           </Routes>
         </main>
 
