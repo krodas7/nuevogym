@@ -25,9 +25,22 @@ if exist node_modules (
     echo ⚠️  Eliminando node_modules...
     rmdir /s /q node_modules
 )
-call npm install --legacy-peer-deps
+
+REM Configurar para usar binarios pre-compilados
+set npm_config_build_from_source=false
+set ELECTRON_SKIP_BINARY_DOWNLOAD=0
+
+echo 📦 Instalando con binarios pre-compilados...
+echo ⏱️  Esto tomará 2-3 minutos...
+echo.
+
+call npm install --legacy-peer-deps --prefer-offline --no-audit
+
 if %errorlevel% neq 0 (
     echo ❌ Error al instalar dependencias
+    echo.
+    echo 💡 Alternativa: Ejecuta INSTALAR-SIN-COMPILAR.bat
+    echo.
     pause
     exit /b 1
 )
@@ -37,11 +50,12 @@ echo.
 echo [3/5] Recompilando módulos nativos para Windows...
 call npm run rebuild
 if %errorlevel% neq 0 (
-    echo ❌ Error al recompilar módulos nativos
-    pause
-    exit /b 1
+    echo ⚠️  Advertencia: No se pudieron recompilar módulos nativos
+    echo 💡 Se usarán binarios pre-compilados
+    echo.
+    REM No detener, continuar con binarios pre-compilados
 )
-echo ✅ Módulos nativos recompilados
+echo ✅ Módulos nativos listos
 echo.
 
 echo [4/5] Compilando frontend...
