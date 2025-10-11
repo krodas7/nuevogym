@@ -1,0 +1,235 @@
+/* Estilos para ticket de renovación - Impresora térmica 80mm */
+.ticket-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.ticket-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ticket {
+  width: 80mm; /* Ancho estándar para impresoras térmicas */
+  min-height: 200mm;
+  background: white;
+  padding: 0;
+  margin: 0 auto;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #000;
+}
+
+/* Header del ticket */
+.ticket-header {
+  text-align: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.ticket-logo {
+  margin-bottom: 0.5rem;
+}
+
+.ticket-title-main {
+  margin-bottom: 0.5rem;
+}
+
+/* Separadores */
+.ticket-separator {
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+  margin: 0.5rem 0;
+  letter-spacing: 1px;
+}
+
+.ticket-separator-dashed {
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+  margin: 0.5rem 0;
+  letter-spacing: 1px;
+}
+
+/* Título principal */
+.ticket-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0.75rem 0;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* Información del ticket */
+.ticket-info {
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+  font-size: 11px;
+}
+
+.ticket-row span:first-child {
+  font-weight: normal;
+}
+
+.ticket-row span:last-child {
+  font-weight: bold;
+}
+
+/* Secciones */
+.ticket-section {
+  margin: 0.75rem 0;
+  padding: 0 0.5rem;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+  color: #000;
+  text-transform: uppercase;
+}
+
+/* Total */
+.ticket-total {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+}
+
+.total-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.total-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Footer */
+.ticket-footer {
+  text-align: center;
+  padding: 1rem 0.5rem 0.5rem;
+  border-top: 1px solid #eee;
+  margin-top: 1rem;
+}
+
+/* Botones de acción */
+.ticket-actions {
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  border-top: 1px solid #ddd;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+
+/* Estilos para impresión */
+@media print {
+  .ticket-overlay {
+    position: static;
+    background: none;
+    padding: 0;
+  }
+
+  .ticket-container {
+    box-shadow: none;
+    border-radius: 0;
+    max-width: none;
+    width: 80mm;
+    height: auto;
+  }
+
+  .ticket-actions {
+    display: none;
+  }
+
+  .ticket {
+    width: 80mm;
+    min-height: auto;
+    page-break-inside: avoid;
+  }
+
+  /* Asegurar que los colores se impriman */
+  .ticket-title-main div:first-child,
+  .ticket-title,
+  .section-title,
+  .total-label,
+  .total-amount {
+    color: #000 !important;
+  }
+
+  .ticket-title-main div:last-child,
+  .ticket-title-main div:nth-child(2) {
+    color: #4CAF50 !important;
+  }
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 480px) {
+  .ticket {
+    width: 100%;
+    max-width: 80mm;
+  }
+
+  .ticket-container {
+    max-width: 95vw;
+  }
+
+  .ticket-actions {
+    flex-direction: column;
+  }
+}

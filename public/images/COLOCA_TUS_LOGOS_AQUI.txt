@@ -1,0 +1,46 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║     📁 COLOCA TUS LOGOS EN ESTA CARPETA                   ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+📍 UBICACIÓN ACTUAL:
+   /Users/krodas7/Desktop/nuevogym/public/images/
+
+
+🖼️ ARCHIVOS QUE NECESITAS COLOCAR AQUÍ:
+
+1. logo-sidebar.png
+   └─ Logo para el menú lateral (150x150 px recomendado)
+   
+2. logo-ticket.png
+   └─ Logo para los tickets impresos (200x200 px recomendado)
+   
+3. logo-login.png (OPCIONAL)
+   └─ Logo para la pantalla de login (200x200 px recomendado)
+
+
+📋 INSTRUCCIONES RÁPIDAS:
+
+1. Arrastra tus imágenes a esta carpeta
+2. Renómbralas exactamente como se indica arriba
+3. Recarga la aplicación (Cmd+R o Ctrl+R)
+4. ¡Listo! Tus logos aparecerán automáticamente
+
+
+⚠️ IMPORTANTE:
+- Usa los nombres EXACTOS indicados arriba
+- Formato PNG preferiblemente
+- Fondo transparente para sidebar y login
+- Si no colocas logos, se usarán los emojis por defecto (💪)
+
+
+✅ SISTEMA DE FALLBACK:
+Si falta algún logo, la aplicación mostrará automáticamente
+el emoji 💪 como respaldo, así que no hay problema si no
+tienes todos los logos listos.
+
+
+📖 Para más información, lee:
+   INSTRUCCIONES_LOGOS.md (en la raíz del proyecto)
+
