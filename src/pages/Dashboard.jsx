@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { safeElectronCall, ElectronWarning } from '../utils/electronAPI';
 
 function Dashboard() {
   const [estadisticas, setEstadisticas] = useState(null);
@@ -50,24 +51,40 @@ function Dashboard() {
     });
 
     try {
-      if (!window.electronAPI) {
-        console.error('electronAPI no está disponible');
-        setLoading(false);
-        setCargandoGraficos(false);
-        return;
-      }
-
-      // Cargar estadísticas básicas primero
-      const result = await window.electronAPI.getEstadisticas();
-      console.log('Resultado de getEstadisticas:', result);
+      // Usar función segura
+      const result = await safeElectronCall('getEstadisticas');
       
       if (result && result.success) {
         setEstadisticas(result.data);
       } else {
-        console.error('Error en getEstadisticas:', result);
+        console.error('⚠️ Error en getEstadisticas:', result);
+        setEstadisticas({
+          totalClientes: 0,
+          clientesActivos: 0,
+          clientesVencidos: 0,
+          membresiasProximasVencer: 0,
+          clientesProximosVencer: [],
+          asistenciasHoy: 0,
+          asistenciasSemana: [],
+          ingresosHoy: 0,
+          ingresosMes: 0,
+          error: result?.error || 'Error al cargar datos'
+        });
       }
     } catch (error) {
-      console.error('Error al cargar estadísticas:', error);
+      console.error('❌ Error al cargar estadísticas:', error);
+      setEstadisticas({
+        totalClientes: 0,
+        clientesActivos: 0,
+        clientesVencidos: 0,
+        membresiasProximasVencer: 0,
+        clientesProximosVencer: [],
+        asistenciasHoy: 0,
+        asistenciasSemana: [],
+        ingresosHoy: 0,
+        ingresosMes: 0,
+        error: error.message
+      });
     }
     
     setLoading(false);
@@ -114,6 +131,28 @@ function Dashboard() {
     fecha: new Date(item.fecha).toLocaleDateString('es-GT', { weekday: 'short', day: 'numeric' }),
     asistencias: item.count
   })) : [];
+
+  // Mostrar error si hay problemas con electronAPI
+  if (estadisticas?.error) {
+    return (
+      <div>
+        <div className="page-header">
+          <h1 className="page-title">Dashboard</h1>
+          <p className="page-subtitle">Vista general del gimnasio</p>
+        </div>
+        <div className="card">
+          <div className="alert alert-warning" style={{ background: '#fff3cd', borderColor: '#ffc107', color: '#856404' }}>
+            <span>⚠️</span>
+            <div>
+              <strong>Aplicación Desktop</strong><br />
+              {estadisticas.error}<br />
+              <small>Por favor ejecuta la aplicación usando Electron (npm start o el instalador .exe)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

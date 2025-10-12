@@ -31,10 +31,28 @@ function Clientes() {
 
   const cargarClientes = async () => {
     setLoading(true);
-    const result = await window.electronAPI.getClientes();
-    if (result.success) {
-      setClientes(result.data);
-      setClientesFiltrados(result.data);
+    try {
+      if (!window.electronAPI || !window.electronAPI.getClientes) {
+        console.error('❌ electronAPI no disponible');
+        setClientes([]);
+        setClientesFiltrados([]);
+        setLoading(false);
+        return;
+      }
+      
+      const result = await window.electronAPI.getClientes();
+      if (result && result.success) {
+        setClientes(result.data || []);
+        setClientesFiltrados(result.data || []);
+      } else {
+        console.error('Error al cargar clientes:', result?.error);
+        setClientes([]);
+        setClientesFiltrados([]);
+      }
+    } catch (error) {
+      console.error('Error en cargarClientes:', error);
+      setClientes([]);
+      setClientesFiltrados([]);
     }
     setLoading(false);
   };
