@@ -3,8 +3,6 @@ name: 🍎 Build Mac Installer
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -22,32 +20,29 @@ jobs:
         cache: 'npm'
         
     - name: 📦 Install dependencies
-      run: |
-        npm install --legacy-peer-deps
+      run: npm install --legacy-peer-deps
+      continue-on-error: false
         
     - name: 🔨 Rebuild native modules
-      run: |
-        npm run rebuild
+      run: npm run rebuild
+      continue-on-error: true
         
     - name: ⚛️ Build frontend
-      run: |
-        npm run build
+      run: npm run build
         
     - name: 🍎 Build Mac installer
-      run: |
-        npm run build:mac
+      run: npm run build:mac
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: 📊 List output files
-      run: |
-        ls -la dist-electron/
+      run: ls -la dist-electron/
+      if: always()
         
-    - name: 📤 Upload Mac Installer (DMG)
+    - name: 📤 Upload Mac Installer
       uses: actions/upload-artifact@v4
+      if: success()
       with:
         name: NuevoGym-Mac-Installer
-        path: |
-          dist-electron/*.dmg
+        path: dist-electron/*.dmg
         retention-days: 90
-

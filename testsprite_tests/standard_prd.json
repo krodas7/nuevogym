@@ -1,0 +1,228 @@
+{
+  "meta": {
+    "project": "NuevoGym",
+    "date": "2025-10-04",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "NuevoGym is a comprehensive gym management system utilizing modern web and Electron technologies. It offers secure user authentication, client and membership management, attendance control via fingerprint and webcam, financial tracking, and detailed reporting capabilities including a new tickets generated report. The system features an intuitive interface with light/dark theme, role-based access control, and easy installation and update processes optimized for Windows environments.",
+  "core_goals": [
+    "Provide a secure, user-friendly platform for gym management with multi-user role support and permissions.",
+    "Enable efficient client management including capture of biometric and photographic data.",
+    "Offer detailed attendance tracking integrated with fingerprint sensors and manual inputs.",
+    "Manage memberships with varied plans and streamlined renewal processes including ticket generation.",
+    "Generate comprehensive reports covering clients, attendances, income, memberships about to expire, and tickets generated, with filtering and export options.",
+    "Support easy installation, configuration, and updates on Windows, with backup and restore capabilities.",
+    "Ensure real-time notifications for critical events such as fingerprint scans and system alerts.",
+    "Provide integration with hardware components like fingerprint sensors and Arduino-controlled electric locks."
+  ],
+  "key_features": [
+    "Sistema de Autenticación con bcrypt y sesiones persistentes.",
+    "Dashboard con estadísticas financieras y asistencias con gráficos interactivos.",
+    "Gestión completa de Clientes con webcam y huella dactilar.",
+    "Control de Asistencias manual y automático con sensor de huellas.",
+    "Configuración flexible de tipos de membresía y renovaciones con tickets.",
+    "Sistema de Reportes extensivo incluyendo nuevo módulo para Tickets Generados con filtros de fecha, estadísticas, exportación e impresión.",
+    "Gestión de Usuarios con roles y permisos detallados.",
+    "Integración con sensor de huellas mediante webhook y comunicación serial con Arduino para chapa eléctrica.",
+    "Temas claro y oscuro con persistencia de usuario.",
+    "Comunicaciones IPC seguras entre procesos de Electron.",
+    "Captura y manejo de fotos vía webcam.",
+    "Notificaciones visuales y sonoras en tiempo real.",
+    "Respaldo y restauración de base de datos SQLite, junto con inserción de datos de prueba para testing.",
+    "Instalación optimizada para Windows con opción de uso portable o instalador .exe."
+  ],
+  "user_flow_summary": [
+    "Usuario inicia sesión con credenciales seguras, accediendo según rol asignado.",
+    "Desde el Dashboard, visualiza información financiera y de asistencia actual.",
+    "Gestiona clientes incluyendo creación con foto y huella, edición y búsqueda.",
+    "Registra asistencias mediante sensor de huellas o ingreso manual.",
+    "Configura y actualiza tipos y planes de membresía y realiza renovaciones generando tickets.",
+    "Genera reportes filtrados, incluyendo el reporte nuevo de Tickets Generados con estadísticas y opción de exportar o imprimir.",
+    "Administra usuarios y sus permisos para controlar el acceso a diferentes módulos.",
+    "Configura sensores de huellas y dispositivos Arduino, realiza respaldo y restauración de base de datos, y si es necesario inserta datos de prueba para pruebas.",
+    "Actualiza el sistema mediante scripts optimizados para Windows o instaladores .exe."
+  ],
+  "validation_criteria": [
+    "Login autenticado con bcrypt y sesión persistente probada.",
+    "Dashboard muestra estadísticas correctas y actualizadas.",
+    "CRUD de clientes realiza todas las operaciones incluyendo foto y huella correctamente.",
+    "Registro de asistencias responde a eventos de sensor y entradas manuales.",
+    "Membresías pueden ser configuradas, renovadas y tickets generados adecuadamente.",
+    "Sistema de Reportes incluye la nueva sección de Tickets Generados con filtrado, estadísticas, exportación a CSV e impresión.",
+    "Control de usuarios y permisos limitan correctamente el acceso a módulos.",
+    "Configuración de sensores de huellas y Arduino funcionan sin errores y se guardan persistentes.",
+    "Tema claro/oscuro cambia y persiste la preferencia.",
+    "Notificaciones aparecen en tiempo real con los parámetros correctos.",
+    "Backups y restauraciones de base de datos se realizan correctamente.",
+    "Scripts de instalación y optimización para Windows ejecutan sin errores y permiten inicio exitoso del sistema.",
+    "Datos de prueba se insertan y muestran correctamente en reportes.",
+    "Exportación e impresión en reportes respetan formatos definidos y se prueban adecuadamente."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "JavaScript",
+      "React 18.2.0",
+      "Electron 28.0.0",
+      "Vite 5.0.0",
+      "SQLite (better-sqlite3)",
+      "Node.js",
+      "bcryptjs",
+      "serialport",
+      "Recharts",
+      "React Router DOM",
+      "Heroicons",
+      "Axios"
+    ],
+    "features": [
+      {
+        "name": "Sistema de Autenticación",
+        "description": "Login de usuarios con encriptación bcrypt, validación de credenciales, sesión persistente en localStorage",
+        "files": [
+          "src/pages/Login.jsx",
+          "src/Login.css",
+          "electron/main.js"
+        ]
+      },
+      {
+        "name": "Dashboard con Estadísticas",
+        "description": "Vista general con ingresos mensuales, asistencias diarias, total clientes, membresías próximas a vencer, gráficos interactivos con Recharts",
+        "files": [
+          "src/pages/Dashboard.jsx"
+        ]
+      },
+      {
+        "name": "Gestión de Clientes",
+        "description": "CRUD completo de clientes con foto (webcam), huella dactilar, paginación, búsqueda, validación de membresías",
+        "files": [
+          "src/pages/Clientes.jsx",
+          "src/components/NuevoClienteModal.jsx",
+          "src/components/ClienteDetalle.jsx",
+          "src/components/CameraCapture.jsx"
+        ]
+      },
+      {
+        "name": "Control de Asistencias",
+        "description": "Registro manual y automático de asistencias, filtros por fecha, integración con sensor de huellas",
+        "files": [
+          "src/pages/Asistencias.jsx",
+          "src/components/RegistroAsistenciaModal.jsx"
+        ]
+      },
+      {
+        "name": "Tipos de Membresía",
+        "description": "Configuración de planes (Mensual, Trimestral, Semestral, Anual) con duración, precio, descripción, estado activo/inactivo",
+        "files": [
+          "src/pages/TiposMembresia.jsx",
+          "src/components/MembresiaModal.jsx"
+        ]
+      },
+      {
+        "name": "Renovación de Membresías",
+        "description": "Renovación rápida con generación de tickets, filtros por estado, cálculo automático de fechas, métodos de pago",
+        "files": [
+          "src/pages/RenovarMembresias.jsx",
+          "src/components/RenovacionModal.jsx",
+          "src/components/TicketRenovacion.jsx"
+        ]
+      },
+      {
+        "name": "Sistema de Reportes",
+        "description": "5 tipos de reportes: Clientes, Asistencias, Ingresos, Membresías por Vencer, Tickets Generados. Con filtros, estadísticas, exportación CSV, impresión",
+        "files": [
+          "src/pages/Reportes.jsx"
+        ]
+      },
+      {
+        "name": "Gestión de Usuarios",
+        "description": "Multi-usuario con roles (admin/usuario), permisos por módulo, creación, edición, desactivación, auditoría",
+        "files": [
+          "src/pages/Usuarios.jsx",
+          "src/components/UsuarioModal.jsx"
+        ]
+      },
+      {
+        "name": "Configuración del Sistema",
+        "description": "Cambio de contraseña, configuración sensor huellas (IP), configuración Arduino (puerto COM, baudios), backup/restore base de datos, datos de prueba",
+        "files": [
+          "src/pages/Configuracion.jsx"
+        ]
+      },
+      {
+        "name": "Sistema de Tickets",
+        "description": "Generación automática de tickets con numeración única incremental, 3 tipos (renovación, nuevo cliente, pago), formato para impresora térmica 80mm",
+        "files": [
+          "src/components/TicketRenovacion.jsx",
+          "src/components/TicketNuevoCliente.jsx",
+          "src/components/TicketPago.jsx",
+          "src/components/TicketRenovacion.css"
+        ]
+      },
+      {
+        "name": "Integración Sensor de Huellas",
+        "description": "Webhook server en puerto 9000, captura de huellas vía api.exe, comparación de templates, registro automático de asistencias, notificaciones en tiempo real",
+        "files": [
+          "electron/main.js",
+          "src/components/NotificacionSensor.jsx"
+        ]
+      },
+      {
+        "name": "Integración Arduino",
+        "description": "Comunicación serial para control de chapa eléctrica, detección de puertos COM, comando OPEN_DOOR, tiempo de apertura configurable",
+        "files": [
+          "electron/main.js"
+        ]
+      },
+      {
+        "name": "Base de Datos SQLite",
+        "description": "8 tablas (clientes, membresias, asistencias, tickets, usuarios, pagos, configuracion, auditoria), operaciones CRUD, backup/restore",
+        "files": [
+          "electron/main.js"
+        ]
+      },
+      {
+        "name": "Sistema de Permisos",
+        "description": "Control de acceso basado en roles, sidebar dinámico, rutas protegidas, indicador visual de rol",
+        "files": [
+          "src/App.jsx"
+        ]
+      },
+      {
+        "name": "Tema Claro/Oscuro",
+        "description": "Toggle entre modo claro y oscuro, variables CSS, persistencia de preferencia, ThemeContext",
+        "files": [
+          "src/contexts/ThemeContext.jsx",
+          "src/theme.css",
+          "src/App.jsx"
+        ]
+      },
+      {
+        "name": "Captura de Foto",
+        "description": "Acceso a webcam, captura de imagen, conversión a Base64, preview, retomar foto",
+        "files": [
+          "src/components/CameraCapture.jsx"
+        ]
+      },
+      {
+        "name": "Notificaciones en Tiempo Real",
+        "description": "Notificaciones visuales con foto del cliente, sonido, progreso automático, tipos: success/error/expired",
+        "files": [
+          "src/components/NotificacionSensor.jsx"
+        ]
+      },
+      {
+        "name": "IPC Communication",
+        "description": "Comunicación segura entre proceso main y renderer de Electron, context isolation, API expuesta vía contextBridge",
+        "files": [
+          "electron/preload.js"
+        ]
+      },
+      {
+        "name": "Navegación y Routing",
+        "description": "React Router con sidebar de navegación, rutas protegidas por permisos, redirección automática",
+        "files": [
+          "src/App.jsx"
+        ]
+      }
+    ]
+  }
+}

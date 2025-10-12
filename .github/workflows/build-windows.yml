@@ -3,8 +3,6 @@ name: 🏗️ Build Windows Installer
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -22,43 +20,29 @@ jobs:
         cache: 'npm'
         
     - name: 📦 Install dependencies
-      run: |
-        npm install --legacy-peer-deps
+      run: npm install --legacy-peer-deps
+      continue-on-error: false
         
     - name: 🔨 Rebuild native modules
-      run: |
-        npm run rebuild
+      run: npm run rebuild
+      continue-on-error: true
         
     - name: ⚛️ Build frontend
-      run: |
-        npm run build
+      run: npm run build
         
     - name: 📦 Build Windows installer
-      run: |
-        npm run build:win
+      run: npm run build:win
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: 📊 List output files
-      run: |
-        dir dist-electron
+      run: dir dist-electron
+      if: always()
         
-    - name: 📤 Upload Windows Installer (NSIS)
+    - name: 📤 Upload Windows Installer
       uses: actions/upload-artifact@v4
+      if: success()
       with:
         name: NuevoGym-Windows-Installer
-        path: |
-          dist-electron/*.exe
-          !dist-electron/*-unpacked
+        path: dist-electron/*.exe
         retention-days: 90
-        
-    - name: 📊 Upload build info
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-info
-        path: |
-          dist-electron/*.yml
-          dist-electron/*.yaml
-        retention-days: 30
-        if-no-files-found: ignore
-

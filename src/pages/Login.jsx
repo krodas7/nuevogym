@@ -6,6 +6,10 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
+  const [mostrarAdvertencia] = useState(() => {
+    // Detectar si se está ejecutando en navegador web vs Electron
+    return !window.electronAPI;
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,6 +18,13 @@ function Login({ onLogin }) {
 
     if (!usuario.trim() || !password.trim()) {
       setError('Por favor completa todos los campos');
+      return;
+    }
+
+    // Verificar que electronAPI está disponible
+    if (!window.electronAPI || !window.electronAPI.login) {
+      console.error('❌ electronAPI no disponible');
+      setError('Esta aplicación debe ejecutarse en Electron. Por favor usa el instalador o ejecuta: npm start');
       return;
     }
 
@@ -31,11 +42,11 @@ function Login({ onLogin }) {
         onLogin(result.data);
       } else {
         console.error('❌ Login fallido:', result.error);
-        setError(result.error);
+        setError(result.error || 'Credenciales inválidas');
       }
     } catch (err) {
       console.error('❌ Error en login:', err);
-      setError('Error al conectar con el servidor');
+      setError('Error al conectar con el servidor. Asegúrate de que Electron está corriendo.');
     }
 
     setCargando(false);
@@ -65,6 +76,17 @@ function Login({ onLogin }) {
           <h1 className="login-title">NuevoGym</h1>
           <p className="login-subtitle">Sistema de Gestión</p>
         </div>
+
+        {mostrarAdvertencia && (
+          <div className="alert alert-warning" style={{ marginBottom: '1.5rem', background: '#fff3cd', borderColor: '#ffc107', color: '#856404' }}>
+            <span>⚠️</span>
+            <div>
+              <strong>Aplicación Desktop</strong><br />
+              Esta aplicación debe ejecutarse en Electron.<br />
+              <small>Ejecuta: <code>npm start</code> o usa el instalador .exe</small>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="alert alert-error" style={{ marginBottom: '1.5rem' }}>

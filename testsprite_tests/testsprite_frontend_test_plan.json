@@ -1,0 +1,546 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Login Success with Valid Credentials",
+    "description": "Verify that a user can log in successfully using valid credentials and the session persists.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username and password."
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button."
+      },
+      {
+        "type": "assertion",
+        "description": "User is authenticated, directed to dashboard and session is persisted in localStorage."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Login Failure with Invalid Credentials",
+    "description": "Verify that login fails when invalid username or password is entered and appropriate error message is shown.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page."
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid username or password."
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button."
+      },
+      {
+        "type": "assertion",
+        "description": "Login is denied and an error message about invalid credentials is displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Dashboard Displays Correct Financial and Attendance Statistics",
+    "description": "Verify dashboard loads correct monthly income, daily attendances, total clients, and memberships nearing expiration with accurate charts.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a valid user with dashboard access."
+      },
+      {
+        "type": "assertion",
+        "description": "Dashboard loads and displays income statistics for current month accurately."
+      },
+      {
+        "type": "assertion",
+        "description": "Attendance graphs show accurate daily attendance counts."
+      },
+      {
+        "type": "assertion",
+        "description": "Total clients count is correct and displayed."
+      },
+      {
+        "type": "assertion",
+        "description": "Memberships about to expire are correctly identified and shown."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Complete Client CRUD Including Photo and Fingerprint",
+    "description": "Verify full create, read, update, delete operations for clients including webcam photo capture and fingerprint data integration.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Clients management page."
+      },
+      {
+        "type": "action",
+        "description": "Create new client with valid details including photo capture via webcam and fingerprint scan."
+      },
+      {
+        "type": "assertion",
+        "description": "New client is saved and visible in the clients list with correct photo and fingerprint data."
+      },
+      {
+        "type": "action",
+        "description": "Edit client details and update photo and fingerprint."
+      },
+      {
+        "type": "assertion",
+        "description": "Client details, photo, and fingerprint are updated correctly."
+      },
+      {
+        "type": "action",
+        "description": "Search for client by name and fingerprint filters."
+      },
+      {
+        "type": "assertion",
+        "description": "Client appears in search results."
+      },
+      {
+        "type": "action",
+        "description": "Delete client record."
+      },
+      {
+        "type": "assertion",
+        "description": "Client is removed from the list and no longer accessible."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Attendance Registration by Fingerprint Sensor and Manual Input",
+    "description": "Verify attendance is recorded accurately via fingerprint sensor webhook and also manually with date filtering.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Ensure fingerprint sensor webhook server is running."
+      },
+      {
+        "type": "action",
+        "description": "Scan a registered fingerprint on sensor."
+      },
+      {
+        "type": "assertion",
+        "description": "Attendance is automatically registered and real-time notification appears."
+      },
+      {
+        "type": "action",
+        "description": "Manually add attendance entry via manual input option."
+      },
+      {
+        "type": "assertion",
+        "description": "Manual attendance record is saved correctly."
+      },
+      {
+        "type": "action",
+        "description": "Filter attendance records by date range."
+      },
+      {
+        "type": "assertion",
+        "description": "Only records within the specified date range are displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Membership Plan Configuration and Renewal with Ticket Generation",
+    "description": "Verify the configuration of various membership plans, renewal processes, and automatic ticket generation with accurate calculations.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Membership Types management page."
+      },
+      {
+        "type": "action",
+        "description": "Create new membership plan with valid duration, price, and activation status."
+      },
+      {
+        "type": "assertion",
+        "description": "Membership plan is saved and displayed correctly."
+      },
+      {
+        "type": "action",
+        "description": "Deactivate and reactivate membership plans and verify status changes."
+      },
+      {
+        "type": "assertion",
+        "description": "Membership status updated and enforced in system."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to Renew Memberships page and renew an active membership."
+      },
+      {
+        "type": "assertion",
+        "description": "Renewal date is correctly calculated and ticket is generated with correct information."
+      },
+      {
+        "type": "assertion",
+        "description": "Ticket can be previewed, printed, and matches the format for thermal printer."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Generate and Export Reports Including Tickets Generated",
+    "description": "Verify all report types load correctly with filtering options, generate accurate statistics, support CSV export and printing, including the Tickets Generated report.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access Reports module."
+      },
+      {
+        "type": "action",
+        "description": "Select each report type: Clients, Attendances, Incomes, Memberships about to expire, Tickets Generated."
+      },
+      {
+        "type": "action",
+        "description": "Apply different combinations of date and status filters."
+      },
+      {
+        "type": "assertion",
+        "description": "Filtered data is displayed with correct statistics and summaries."
+      },
+      {
+        "type": "action",
+        "description": "Export reports to CSV."
+      },
+      {
+        "type": "assertion",
+        "description": "CSV files are generated with expected content and structure."
+      },
+      {
+        "type": "action",
+        "description": "Print reports and verify output formats."
+      },
+      {
+        "type": "assertion",
+        "description": "Printed reports match the defined format and all fields are correctly displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "User Role Based Access Control Enforces Permissions and Module Restriction",
+    "description": "Verify users with different roles (admin and standard) have access only to permitted modules and that UI elements reflect these permissions.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as admin user."
+      },
+      {
+        "type": "assertion",
+        "description": "Admin has access to all modules and UI elements."
+      },
+      {
+        "type": "action",
+        "description": "Login as standard user with limited permissions."
+      },
+      {
+        "type": "assertion",
+        "description": "Restricted modules are not accessible; sidebar and routes are protected."
+      },
+      {
+        "type": "action",
+        "description": "Attempt direct URL access to an unauthorized module."
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied or redirected appropriately."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Configure Fingerprint Sensor and Arduino Integration Persistently",
+    "description": "Verify that the fingerprint sensor IP and Arduino serial port configurations can be saved and persist after restarting the application.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to System Configuration page."
+      },
+      {
+        "type": "action",
+        "description": "Set fingerprint sensor IP address and test connectivity."
+      },
+      {
+        "type": "assertion",
+        "description": "Sensor connection test is successful."
+      },
+      {
+        "type": "action",
+        "description": "Configure Arduino COM port, baud rate, and test communication."
+      },
+      {
+        "type": "assertion",
+        "description": "Arduino control commands (e.g., OPEN_DOOR) work correctly."
+      },
+      {
+        "type": "action",
+        "description": "Save configurations and restart the application."
+      },
+      {
+        "type": "assertion",
+        "description": "Fingerprint sensor IP and Arduino configuration persist and function correctly after restart."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Theme Toggle Between Light and Dark Modes with Persistence",
+    "description": "Verify the UI theme can be toggled between light and dark modes and the selected theme preference is saved and restored on restart.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Toggle theme switch to dark mode."
+      },
+      {
+        "type": "assertion",
+        "description": "UI updates to dark theme and persists colors accordingly."
+      },
+      {
+        "type": "action",
+        "description": "Reload or restart the application."
+      },
+      {
+        "type": "assertion",
+        "description": "Previously selected theme (dark) is restored."
+      },
+      {
+        "type": "action",
+        "description": "Toggle theme back to light mode and verify same persistence behavior."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Real-time Notifications Display with Correct Content and Types",
+    "description": "Verify that notifications triggered by fingerprint scans, errors, and expiration events appear visually and with sound in real time with correct images and message types.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Trigger a fingerprint attendance event."
+      },
+      {
+        "type": "assertion",
+        "description": "Success notification with client photo and sound is displayed immediately."
+      },
+      {
+        "type": "action",
+        "description": "Trigger an error notification (e.g., fingerprint not found)."
+      },
+      {
+        "type": "assertion",
+        "description": "Error notification with appropriate message and sound is shown."
+      },
+      {
+        "type": "action",
+        "description": "Trigger membership expiration notification."
+      },
+      {
+        "type": "assertion",
+        "description": "Expired notification with correct styling and auto-dismiss behavior is presented."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Backup and Restore SQLite Database Including Data Integrity",
+    "description": "Verify that database backup and restore functions work correctly, producing valid backup files and restoring data fully without loss or corruption.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Perform a database backup operation."
+      },
+      {
+        "type": "assertion",
+        "description": "Backup file is created, saved, and accessible."
+      },
+      {
+        "type": "action",
+        "description": "Make changes to existing data or delete records."
+      },
+      {
+        "type": "action",
+        "description": "Restore database from backup file."
+      },
+      {
+        "type": "assertion",
+        "description": "Original data including clients, memberships, attendances are fully restored."
+      },
+      {
+        "type": "assertion",
+        "description": "No data corruption or loss is detected after restore."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Insert and Verify Test Data for Functional Testing",
+    "description": "Verify that the insertion of test data populates the database correctly and that inserted data appears properly in different modules and reports.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Use the system option to insert pre-configured test data."
+      },
+      {
+        "type": "assertion",
+        "description": "Test data including clients, memberships, attendances, and tickets are created."
+      },
+      {
+        "type": "action",
+        "description": "Check clients and attendances modules for test data presence."
+      },
+      {
+        "type": "assertion",
+        "description": "Test data is visible and usable in the system."
+      },
+      {
+        "type": "action",
+        "description": "Generate reports that include test data."
+      },
+      {
+        "type": "assertion",
+        "description": "Reports accurately reflect test data entries."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Windows Installation and Update Process Execution",
+    "description": "Verify the application installs correctly using the installer (.exe) and portable mode on Windows, including execution of update scripts without errors and successful application startup.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the installation executable and follow installation steps."
+      },
+      {
+        "type": "assertion",
+        "description": "Application installs successfully and shortcut is created."
+      },
+      {
+        "type": "action",
+        "description": "Launch the installed application and verify it starts without errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Application loads login screen with no faults."
+      },
+      {
+        "type": "action",
+        "description": "Run the update script and verify no errors occur."
+      },
+      {
+        "type": "assertion",
+        "description": "Application updates correctly and all modules function after update."
+      },
+      {
+        "type": "action",
+        "description": "Test running in portable mode."
+      },
+      {
+        "type": "assertion",
+        "description": "Application functions as expected without installation."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Webcam Photo Capture and Preview Functionality",
+    "description": "Verify webcam access permissions, photo capture, Base64 conversion, preview display, and retake option perform correctly during client creation and editing.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to new client creation modal."
+      },
+      {
+        "type": "action",
+        "description": "Allow webcam access when prompted."
+      },
+      {
+        "type": "assertion",
+        "description": "Webcam video stream is displayed."
+      },
+      {
+        "type": "action",
+        "description": "Capture photo via webcam."
+      },
+      {
+        "type": "assertion",
+        "description": "Captured photo is previewed correctly."
+      },
+      {
+        "type": "action",
+        "description": "Retake photo using provided option."
+      },
+      {
+        "type": "assertion",
+        "description": "Webcam stream resumes and allows new photo capture."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "IPC Secure Communication Between Electron Processes",
+    "description": "Verify that inter-process communication between main and renderer processes in Electron is secure, context isolation is enforced, and data integrity is maintained.",
+    "category": "security",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send test messages from renderer to main processes using contextBridge APIs."
+      },
+      {
+        "type": "assertion",
+        "description": "Messages are received and correctly processed by main process."
+      },
+      {
+        "type": "action",
+        "description": "Attempt unauthorized access to Electron APIs from renderer outside contextBridge."
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied and context isolation prevents exposure."
+      }
+    ]
+  }
+]
