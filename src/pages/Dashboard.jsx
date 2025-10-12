@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import { safeElectronCall, ElectronWarning } from '../utils/electronAPI';
+import { safeElectronCall, ElectronWarning } from '../utils/electronAPI.jsx';
 
 function Dashboard() {
   const [estadisticas, setEstadisticas] = useState(null);
