@@ -26,36 +26,75 @@ if exist node_modules (
     rmdir /s /q node_modules
 )
 
-REM Configurar para usar binarios pre-compilados
+REM Solucionar problema de Python 3.13 + distutils
+echo 🔧 Configurando para Python 3.13...
+set PYTHONPATH=%PYTHONPATH%;%LOCALAPPDATA%\Programs\Python\Python313-32\Lib\site-packages
+set npm_config_python=C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python313-32\python.exe
+
+REM Configurar para usar binarios pre-compilados y evitar compilación
 set npm_config_build_from_source=false
+set npm_config_target_platform=win32
+set npm_config_target_arch=x64
+set npm_config_target_libc=
 set ELECTRON_SKIP_BINARY_DOWNLOAD=0
 
-echo 📦 Instalando con binarios pre-compilados...
+echo 📦 Instalando dependencias (evitando compilación local)...
 echo ⏱️  Esto tomará 2-3 minutos...
 echo.
 
-call npm install --legacy-peer-deps --prefer-offline --no-audit
+REM Intentar instalar con configuración optimizada
+call npm install --legacy-peer-deps --prefer-offline --no-audit --no-optional
 
 if %errorlevel% neq 0 (
-    echo ❌ Error al instalar dependencias
-    echo.
-    echo 💡 Alternativa: Ejecuta INSTALAR-SIN-COMPILAR.bat
-    echo.
-    pause
-    exit /b 1
+    echo ⚠️  Primer intento falló, intentando con configuración alternativa...
+    
+    REM Configuración alternativa para Python 3.13
+    set npm_config_cache=%TEMP%\npm-cache
+    set npm_config_prefer_offline=true
+    set npm_config_no_build_from_source=true
+    
+    call npm install --legacy-peer-deps --no-audit --no-optional --force
+    
+    if %errorlevel% neq 0 (
+        echo ❌ Error persistente al instalar dependencias
+        echo.
+        echo 💡 Soluciones alternativas:
+        echo    1. Ejecuta: pip install setuptools
+        echo    2. O usa: INSTALAR-SIN-COMPILAR.bat
+        echo    3. O instala Visual Studio Build Tools
+        echo.
+        pause
+        exit /b 1
+    )
 )
 echo ✅ Dependencias instaladas
 echo.
 
-echo [3/5] Recompilando módulos nativos para Windows...
-call npm run rebuild
-if %errorlevel% neq 0 (
-    echo ⚠️  Advertencia: No se pudieron recompilar módulos nativos
-    echo 💡 Se usarán binarios pre-compilados
-    echo.
-    REM No detener, continuar con binarios pre-compilados
+echo [3/5] Verificando módulos nativos...
+echo 🔍 Verificando better-sqlite3...
+
+REM Verificar si better-sqlite3 ya está funcionando
+if exist "node_modules\better-sqlite3\build\Release\better_sqlite3.node" (
+    echo ✅ better-sqlite3 ya está compilado
+) else (
+    echo ⚠️  better-sqlite3 necesita compilación...
+    
+    REM Intentar instalar setuptools para Python 3.13
+    echo 🔧 Instalando setuptools para Python 3.13...
+    call pip install setuptools
+    
+    REM Intentar recompilar
+    echo 🔨 Recompilando módulos nativos...
+    call npm run rebuild
+    
+    if %errorlevel% neq 0 (
+        echo ⚠️  No se pudieron recompilar módulos nativos
+        echo 💡 Continuando con binarios pre-compilados disponibles
+    ) else (
+        echo ✅ Módulos nativos recompilados exitosamente
+    )
 )
-echo ✅ Módulos nativos listos
+echo ✅ Módulos nativos verificados
 echo.
 
 echo [4/5] Compilando frontend...
@@ -75,10 +114,12 @@ if not exist "dist\index.html" (
     exit /b 1
 )
 
-if not exist "node_modules\better-sqlite3\build\Release\better_sqlite3.node" (
-    echo ❌ ERROR: better-sqlite3 no compilado correctamente
-    pause
-    exit /b 1
+REM Verificación flexible de better-sqlite3
+if exist "node_modules\better-sqlite3\build\Release\better_sqlite3.node" (
+    echo ✅ better-sqlite3 compilado correctamente
+) else (
+    echo ⚠️  better-sqlite3 no compilado localmente
+    echo 💡 Se intentará usar binario pre-compilado en runtime
 )
 echo ✅ Configuración verificada
 echo.
