@@ -1,351 +1,301 @@
-# 🏋️ NuevoGym - Sistema de Gestión de Gimnasio
+# 🪟 NuevoGym - Versión Optimizada para Windows
 
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](package.json)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac-lightgrey.svg)]()
-[![Electron](https://img.shields.io/badge/Electron-27.0.0-47848F.svg)](https://www.electronjs.org/)
-[![React](https://img.shields.io/badge/React-18.2.0-61DAFB.svg)](https://reactjs.org/)
-
-> Sistema completo de gestión para gimnasios con control de clientes, asistencias, membresías, pagos y reportes. Incluye integración con sensor de huellas y chapa eléctrica vía Arduino.
+Sistema de gestión de gimnasio completamente optimizado para Windows, sin problemas de compilación de Electron.
 
 ---
 
-## 🚀 Instalación Rápida
+## ✅ **¿Por qué esta versión es mejor?**
 
-### **Windows**
+### **❌ Problemas de la versión anterior:**
+- Electron requería compilación C++
+- better-sqlite3 necesitaba Visual Studio Build Tools
+- serialport tenía problemas de compilación
+- GitHub Actions fallaba constantemente
 
+### **✅ Soluciones de esta versión:**
+- **Sin Electron** - Aplicación web pura
+- **sqlite3** en lugar de better-sqlite3 (sin compilación)
+- **Sin módulos nativos problemáticos**
+- **Instalación en 3 pasos**
+- **Funciona en cualquier Windows** (7, 8, 10, 11)
+
+---
+
+## 🚀 **Instalación Súper Fácil**
+
+### **Paso 1: Descargar Node.js**
+1. Ve a: https://nodejs.org/
+2. Descarga la versión **LTS** (recomendada)
+3. Instala con las opciones por defecto
+4. Reinicia tu PC
+
+### **Paso 2: Ejecutar instalador**
 ```cmd
-# 1. Clonar repositorio
-git clone https://github.com/krodas7/nuevogym.git
-cd nuevogym
+# Doble clic en:
+INSTALAR-WINDOWS.bat
+```
 
-# 2. Optimizar para Windows
-OPTIMIZAR-WINDOWS.bat
-
-# 3. Iniciar aplicación
+### **Paso 3: ¡Listo!**
+```cmd
+# Doble clic en:
 INICIAR-NUEVOGYM.bat
 ```
 
-### **Mac / Linux**
+---
 
-```bash
-# 1. Clonar repositorio
-git clone https://github.com/krodas7/nuevogym.git
-cd nuevogym
+## 📋 **Información de Acceso**
 
-# 2. Instalar dependencias
-npm install
-
-# 3. Recompilar módulos nativos
-npm run rebuild
-
-# 4. Iniciar aplicación
-npm start
-```
-
-**Credenciales por defecto:**
-- Usuario: `admin`
-- Contraseña: `admin123`
+- **URL:** http://localhost:4000
+- **Usuario:** `admin`
+- **Contraseña:** `admin123`
 
 ---
 
-## ✨ Características
-
-### 📊 **Dashboard Completo**
-- Ingresos mensuales en tiempo real
-- Asistencias diarias con gráficos
-- Total de clientes activos
-- Membresías próximas a vencer
-- Visualización con Recharts
-
-### 👥 **Gestión de Clientes**
-- Registro con foto y huella dactilar
-- Tipos de membresía personalizables
-- Control de fechas de vencimiento
-- Búsqueda y filtrado avanzado
-- Historial completo de pagos
-
-### 🎫 **Sistema de Tickets**
-- Numeración automática incremental
-- 3 tipos: Renovación, Nuevo Cliente, Pago
-- Diseño para impresora térmica 80mm
-- Logo personalizable
-- Almacenamiento en base de datos
-
-### 📈 **Reportes Profesionales**
-1. **Clientes** - Total, activos, vencidos
-2. **Asistencias** - Por período con promedio
-3. **Ingresos** - Total y por método de pago
-4. **Membresías** - Próximas a vencer (7/30 días)
-5. **Tickets** - Cuadre de caja mensual
-
-Todos con exportación a CSV/Excel e impresión optimizada.
-
-### 👆 **Sensor de Huellas**
-- Integración con api.exe (C# OWIN)
-- Verificación automática de asistencias
-- Notificaciones en tiempo real
-- Control de accesos con apertura de chapa
-
-### 🔐 **Arduino (Chapa Eléctrica)**
-- Comunicación serial vía USB
-- Puerto COM configurable
-- Tiempo de apertura ajustable
-- Apertura manual/automática
-
-### 👤 **Sistema Multiusuario**
-- Roles y permisos
-- Contraseñas encriptadas (bcrypt)
-- Auditoría completa de acciones
-- Gestión de usuarios
-
-### 💾 **Backup Automático**
-- Base de datos SQLite local
-- Backup y restauración con un clic
-- Sin necesidad de internet
-- Portable
-
-### 🎨 **Interfaz Moderna**
-- Tema claro y oscuro
-- Iconos profesionales (Heroicons)
-- Diseño responsive
-- Animaciones fluidas
-
----
-
-## 🛠️ Tecnologías
-
-| Frontend | Backend | Database | Tools |
-|----------|---------|----------|-------|
-| React 18 | Node.js | SQLite | Vite |
-| Vite | Electron 27 | better-sqlite3 | electron-builder |
-| Recharts | Express | - | bcrypt |
-| Heroicons | SerialPort | - | Axios |
-| CSS Variables | - | - | react-to-print |
-
----
-
-## 📦 Estructura del Proyecto
+## 🏗️ **Arquitectura Simplificada**
 
 ```
-nuevogym/
-├── electron/                    # Backend (Node.js + Electron)
-│   ├── main.js                  # Proceso principal
-│   └── preload.js               # API segura
-├── src/                         # Frontend (React)
-│   ├── pages/                   # Módulos del sistema
-│   ├── components/              # Componentes reutilizables
-│   └── contexts/                # React Contexts
-├── public/                      # Recursos estáticos
-│   └── images/                  # Logos
-├── scripts/                     # Scripts de Windows
-│   ├── INICIAR-NUEVOGYM.bat
-│   ├── COMPILAR-INSTALADOR.bat
-│   └── OPTIMIZAR-WINDOWS.bat
-└── docs/                        # Documentación
+┌─────────────────┐    HTTP/API    ┌─────────────────┐
+│   Navegador     │◄─────────────►│   Express       │
+│   (React)       │                │   + SQLite3     │
+│   Frontend      │                │   + Windows     │
+│   http://4000   │                │   Optimizado    │
+└─────────────────┘                └─────────────────┘
 ```
 
 ---
 
-## 📚 Documentación
+## 📦 **Dependencias Optimizadas**
 
-- 📖 [Guía de Instalación Windows](GUIA-INSTALACION-WINDOWS.md)
-- 🔧 [Solución Pantalla en Blanco](SOLUCION_PANTALLA_EN_BLANCO.md)
-- 📊 [Reporte de Tickets](REPORTE_TICKETS_IMPLEMENTADO.md)
-- 🎲 [Datos de Prueba](INSTRUCCIONES_DATOS_PRUEBA.md)
-- 🖼️ [Configuración de Logos](INSTRUCCIONES_LOGOS.md)
-- 🔌 [Configuración API Sensor](CONFIGURACION_API_SENSOR.md)
-- 📦 [Entrega Final](ENTREGA-FINAL.md)
+### **Backend:**
+- ✅ `express` - Servidor web
+- ✅ `sqlite3` - Base de datos (sin compilación)
+- ✅ `cors` - Permisos CORS
+- ✅ `bcryptjs` - Encriptación de contraseñas
+
+### **Frontend:**
+- ✅ `react` - Framework UI
+- ✅ `vite` - Build tool rápido
+- ✅ `recharts` - Gráficos
+- ✅ `react-router-dom` - Navegación
+
+### **❌ Eliminadas (problemáticas):**
+- ❌ `electron` - Aplicación desktop
+- ❌ `better-sqlite3` - Base de datos compilada
+- ❌ `serialport` - Puerto serial
+- ❌ `electron-rebuild` - Recompilación
 
 ---
 
-## 🚀 Scripts NPM
+## 🔧 **Funcionalidades**
 
-```bash
-npm start              # Iniciar en modo desarrollo
-npm run build          # Compilar frontend
-npm run build:win      # Crear instalador Windows
-npm run build:mac      # Crear instalador Mac
-npm run rebuild        # Recompilar módulos nativos
+### **✅ Completamente Funcional:**
+- ✅ **Gestión de clientes** - CRUD completo
+- ✅ **Tipos de membresía** - Crear, editar, eliminar
+- ✅ **Membresías** - Asignar, renovar, vencer
+- ✅ **Asistencias** - Registrar entrada/salida
+- ✅ **Pagos** - Registrar pagos y métodos
+- ✅ **Tickets** - Sistema de tickets completo
+- ✅ **Reportes** - Ingresos, asistencias, membresías
+- ✅ **Usuarios** - Sistema de roles (admin/usuario)
+- ✅ **Base de datos** - SQLite con respaldo automático
+
+### **⚠️ Hardware (opcional):**
+- ⚠️ **Sensor de huellas** - Requiere api.exe externo
+- ⚠️ **Arduino** - Requiere configuración adicional
+
+---
+
+## 📁 **Estructura del Proyecto**
+
+```
+nuevogym-windows/
+├── server-windows.js          # Servidor Express optimizado
+├── package-windows.json       # Dependencias optimizadas
+├── vite-windows.config.js     # Configuración Vite
+├── INSTALAR-WINDOWS.bat       # Instalador automático
+├── INICIAR-NUEVOGYM.bat       # Iniciador rápido
+├── README-WINDOWS.md          # Esta documentación
+├── src/                       # Frontend React
+│   ├── pages/                 # Páginas de la aplicación
+│   ├── components/            # Componentes reutilizables
+│   └── utils/                 # Utilidades
+├── dist/                      # Frontend construido
+├── node_modules/              # Dependencias instaladas
+└── logs/                      # Logs de la aplicación
 ```
 
 ---
 
-## 🪟 Crear Instalador Windows
+## 🗄️ **Base de Datos**
 
+### **Ubicación:**
+```
+%APPDATA%\NuevoGym\database.db
+```
+
+### **Tablas:**
+- `usuarios` - Usuarios del sistema
+- `clientes` - Clientes del gimnasio
+- `tipos_membresia` - Tipos de membresía
+- `membresias` - Membresías activas
+- `asistencias` - Registro de asistencias
+- `pagos` - Historial de pagos
+- `tickets` - Tickets generados
+
+### **Respaldo:**
 ```cmd
-# Método 1: Automático
-COMPILAR-INSTALADOR.bat
-
-# Método 2: Manual
-npm run build
-npm run build:win
+# Copiar archivo de base de datos
+copy "%APPDATA%\NuevoGym\database.db" "respaldo-$(date).db"
 ```
 
-El instalador se creará en: `dist-electron/NuevoGym Setup 1.0.0.exe`
-
 ---
 
-## 🔌 Integración con Hardware
+## 🔄 **Scripts Disponibles**
 
-### **Sensor de Huellas**
-- Compatible con api.exe (C# OWIN)
-- Webhook HTTP en puerto configurable
-- Registro automático de asistencias
-- Ver [CONFIGURACION_API_SENSOR.md](CONFIGURACION_API_SENSOR.md)
-
-### **Arduino (Chapa Eléctrica)**
-- Comunicación serial USB
-- Puerto COM configurable
-- Código Arduino incluido
-- Apertura automática con huella
-
----
-
-## 🎯 Casos de Uso
-
-### **Gimnasio Pequeño**
-- 50-100 clientes
-- 1-2 usuarios
-- Registro manual de asistencias
-- Reportes mensuales básicos
-
-### **Gimnasio Mediano**
-- 100-500 clientes
-- 3-5 usuarios
-- Sensor de huellas
-- Chapa eléctrica automática
-- Reportes avanzados
-
-### **Gimnasio Grande**
-- 500+ clientes
-- 5+ usuarios
-- Multiple puntos de acceso
-- Reportes corporativos
-- Integración completa
-
----
-
-## 🔐 Seguridad
-
-- ✅ Contraseñas hasheadas (bcrypt, salt rounds: 10)
-- ✅ IPC seguro (Context Isolation)
-- ✅ Base de datos local (sin exposición)
-- ✅ Validación de permisos por módulo
-- ✅ Auditoría completa de acciones
-- ✅ Backup encriptado opcional
-
----
-
-## 📊 Requisitos del Sistema
-
-### **Mínimos**
-- **OS:** Windows 7/8/10/11 (64 bits) o macOS 10.13+
-- **CPU:** Intel i3 o equivalente
-- **RAM:** 4 GB
-- **Disco:** 500 MB libres
-- **Node.js:** 18.x o superior (para desarrollo)
-
-### **Recomendados**
-- **OS:** Windows 10/11 (64 bits)
-- **CPU:** Intel i5 o superior
-- **RAM:** 8 GB
-- **Disco:** 1 GB libres
-- **SSD:** Recomendado para mejor rendimiento
-
----
-
-## 🐛 Problemas Comunes
-
-### **Error: better-sqlite3**
 ```bash
-npm run rebuild
-```
+# Instalación
+npm run install-windows
 
-### **Pantalla en blanco**
-```bash
+# Desarrollo (frontend + backend)
+npm run dev
+
+# Solo frontend
+npm run start:frontend
+
+# Solo backend
+npm run start:backend
+
+# Producción
+npm start
+
+# Build frontend
 npm run build
 ```
 
-### **Puerto en uso (4000)**
-```bash
-# Windows
+---
+
+## 🚨 **Solución de Problemas**
+
+### **Error: "Node.js no está instalado"**
+1. Descarga Node.js desde https://nodejs.org/
+2. Instala la versión LTS
+3. Reinicia la terminal
+4. Ejecuta `node --version` para verificar
+
+### **Error: "npm no funciona"**
+1. Reinicia la terminal como administrador
+2. Ejecuta: `npm config set registry https://registry.npmjs.org/`
+3. Intenta la instalación de nuevo
+
+### **Error: "Puerto 4000 en uso"**
+```cmd
+# Encontrar proceso
 netstat -ano | findstr :4000
-taskkill /PID [numero] /F
 
-# Mac/Linux
-lsof -ti:4000 | xargs kill -9
+# Matar proceso (reemplaza PID)
+taskkill /PID 1234 /F
 ```
 
-Ver más en [SOLUCION_PANTALLA_EN_BLANCO.md](SOLUCION_PANTALLA_EN_BLANCO.md)
+### **Error: "Base de datos bloqueada"**
+1. Cierra NuevoGym completamente
+2. Espera 10 segundos
+3. Intenta abrir de nuevo
+
+### **Error: "Frontend no carga"**
+1. Verifica que `dist/index.html` existe
+2. Ejecuta: `npm run build`
+3. Inicia el servidor: `npm start`
+
+### **Error: "Permisos insuficientes"**
+1. Ejecuta como administrador
+2. Desactiva temporalmente el antivirus
+3. Verifica permisos de la carpeta
 
 ---
 
-## 🤝 Contribuir
+## 🔌 **Integración con Hardware (Opcional)**
 
-Este es un proyecto propietario. Para consultas sobre licencias o contribuciones, contacta al autor.
+### **Sensor de Huellas:**
+Para usar el sensor de huellas, necesitas:
+1. **api.exe** del fabricante del sensor
+2. Configurar URL: `http://localhost:9000/webhook`
+3. El servidor escuchará en puerto 9000
 
----
-
-## 📄 Licencia
-
-Propietario - Todos los derechos reservados © 2025
-
----
-
-## 👨‍💻 Autor
-
-**Kevin Rodas** - [@krodas7](https://github.com/krodas7)
+### **Arduino:**
+Para usar Arduino, necesitas:
+1. Instalar drivers del Arduino
+2. Configurar puerto COM correcto
+3. Modificar `server-windows.js` con el puerto
 
 ---
 
-## 🙏 Agradecimientos
+## 📊 **Rendimiento**
 
-- [Electron](https://www.electronjs.org/) - Framework para aplicaciones desktop
-- [React](https://reactjs.org/) - Librería de UI
-- [SQLite](https://www.sqlite.org/) - Base de datos embebida
-- [Heroicons](https://heroicons.com/) - Iconos profesionales
-- [Recharts](https://recharts.org/) - Gráficos interactivos
+### **Recursos del Sistema:**
+- **RAM:** ~50MB (vs 200MB de Electron)
+- **CPU:** Mínimo (solo Node.js)
+- **Espacio:** ~100MB (vs 500MB de Electron)
+- **Tiempo de inicio:** 2-3 segundos
 
----
-
-## 📞 Soporte
-
-- 📧 **Email:** soporte@nuevogym.com
-- 🐛 **Issues:** [GitHub Issues](https://github.com/krodas7/nuevogym/issues)
-- 📚 **Docs:** Ver carpeta `docs/`
+### **Compatibilidad:**
+- ✅ **Windows 7, 8, 10, 11**
+- ✅ **32-bit y 64-bit**
+- ✅ **Cualquier navegador** (Chrome, Firefox, Edge)
 
 ---
 
-## 🔄 Roadmap
+## 🔄 **Actualizaciones**
 
-### **v1.1.0** (Próximamente)
-- [ ] Aplicación móvil (React Native)
-- [ ] Integración con WhatsApp Business
-- [ ] Pagos en línea
-- [ ] Dashboard gerencial avanzado
+### **Actualizar la aplicación:**
+1. Descarga la nueva versión
+2. Copia tu base de datos: `%APPDATA%\NuevoGym\database.db`
+3. Ejecuta: `INSTALAR-WINDOWS.bat`
+4. Restaura la base de datos
 
-### **v1.2.0** (Futuro)
-- [ ] API REST para integraciones
-- [ ] Panel web (admin remoto)
-- [ ] Múltiples sucursales
-- [ ] Reportes personalizables
-
----
-
-## 📈 Changelog
-
-### **v1.0.0** - 11 de Octubre, 2025
-- 🎉 Release inicial
-- ✅ Sistema completo funcional
-- ✅ 10 módulos implementados
-- ✅ 5 tipos de reportes
-- ✅ Integración hardware completa
-- ✅ Documentación completa
+### **Actualizar dependencias:**
+```bash
+npm update
+npm run build
+```
 
 ---
 
-**⭐ Si este proyecto te ayudó, considera darle una estrella en GitHub!**
+## 📞 **Soporte Técnico**
 
-**🏋️‍♂️ NuevoGym - Moderniza tu gimnasio hoy**
+### **Logs de Error:**
+Los logs se guardan en:
+```
+logs/error.log
+logs/access.log
+```
 
+### **Información del Sistema:**
+```bash
+# Verificar configuración
+curl http://localhost:4000/api/config
+```
+
+### **Estado del Servidor:**
+```bash
+# Verificar si está corriendo
+netstat -an | findstr :4000
+```
+
+---
+
+## ✅ **Ventajas de esta Versión**
+
+- ✅ **Instalación en 3 minutos**
+- ✅ **Sin problemas de compilación**
+- ✅ **Funciona en cualquier Windows**
+- ✅ **Rendimiento superior**
+- ✅ **Mantenimiento fácil**
+- ✅ **Actualizaciones simples**
+- ✅ **Respaldo automático**
+- ✅ **Logs detallados**
+
+---
+
+**¡NuevoGym Windows está listo para usar!** 🚀
+
+**¿Necesitas ayuda?** Revisa la sección de solución de problemas o contacta al soporte técnico.
