@@ -60,8 +60,7 @@ echo 📦 Instalando dependencias optimizadas para Windows...
 echo ⏱️  Esto puede tomar 2-3 minutos...
 echo.
 
-REM Usar package-windows.json
-copy package-windows.json package.json >nul
+REM Usar package.json (ya está configurado)
 
 call npm install --legacy-peer-deps --no-optional --no-audit
 
@@ -109,7 +108,7 @@ echo echo. >> "INICIAR-NUEVOGYM.bat"
 echo echo ⚠️  IMPORTANTE: No cierres esta ventana >> "INICIAR-NUEVOGYM.bat"
 echo echo. >> "INICIAR-NUEVOGYM.bat"
 echo start http://localhost:4000 >> "INICIAR-NUEVOGYM.bat"
-echo node server-windows.js >> "INICIAR-NUEVOGYM.bat"
+echo node server.js >> "INICIAR-NUEVOGYM.bat"
 echo pause >> "INICIAR-NUEVOGYM.bat"
 
 echo ✅ Acceso directo creado: INICIAR-NUEVOGYM.bat
@@ -143,7 +142,7 @@ if exist "dist\index.html" (
     echo ❌ Frontend - FALTANTE
 )
 
-if exist "server-windows.js" (
+if exist "server.js" (
     echo ✅ Servidor - OK
 ) else (
     echo ❌ Servidor - FALTANTE
@@ -167,7 +166,7 @@ echo    1. Doble clic en: INICIAR-NUEVOGYM.bat
 echo    2. O ejecuta: npm start
 echo.
 echo 📞 SOPORTE:
-echo    • Revisa README-WINDOWS.md para más información
+echo    • Revisa README.md para más información
 echo    • Los logs se guardan en la carpeta 'logs'
 echo.
 echo ¿Quieres iniciar NuevoGym ahora? (S/N)
@@ -177,7 +176,7 @@ if /i "%iniciar%"=="S" (
     echo.
     echo 🚀 Iniciando NuevoGym...
     start http://localhost:4000
-    node server-windows.js
+    node server.js
 ) else (
     echo.
     echo 👋 Instalación completada. Ejecuta INICIAR-NUEVOGYM.bat cuando quieras usar la aplicación.
