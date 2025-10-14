@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  nuevogym:
+    build: .
+    container_name: nuevogym-app
+    ports:
+      - "4000:4000"  # Frontend React
+      - "9000:9000"  # Webhook del sensor
+    volumes:
+      - ./database:/app/database
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      - DISPLAY=${DISPLAY}
+      - NODE_ENV=development
+    devices:
+      - /dev/dri:/dev/dri  # Para aceleración gráfica
+    network_mode: host
+    restart: unless-stopped
+    command: >
+      bash -c "
+        echo '🚀 Iniciando NuevoGym en Docker...' &&
+        echo '📦 Instalando dependencias...' &&
+        npm install --legacy-peer-deps &&
+        echo '🔧 Recompilando módulos...' &&
+        npm run rebuild &&
+        echo '🌐 Iniciando aplicación...' &&
+        npm start
+      "
+
+  # Servicio opcional para el sensor API
+  sensor-api:
+    image: wine:latest
+    container_name: sensor-api
+    volumes:
+      - ./sensor-api:/app/sensor-api
+    command: >
+      bash -c "
+        echo '🍷 Configurando Wine...' &&
+        winecfg &&
+        echo '🔧 Iniciando sensor API...' &&
+        wine /app/sensor-api/api.exe
+      "
+    depends_on:
+      - nuevogym
