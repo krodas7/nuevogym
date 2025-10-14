@@ -490,7 +490,7 @@ function createWindow() {
   if (isDev) {
     console.log('🌐 Cargando desde http://localhost:4000');
     mainWindow.loadURL('http://localhost:4000');
-    mainWindow.webContents.openDevTools();
+    // DevTools removido - ya no se abre automáticamente
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }

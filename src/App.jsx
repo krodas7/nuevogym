@@ -202,8 +202,13 @@ function AppContent() {
             )}
           </nav>
 
+      {/* Muñeco animado */}
+      <div style={{ padding: '0.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', marginTop: 'auto', flexShrink: 0 }}>
+        <AnimatedGymBuddy />
+      </div>
+
       {/* Información del usuario y logout */}
-      <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', marginTop: 'auto', flexShrink: 0 }}>
+      <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', flexShrink: 0 }}>
         <div style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
           <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>{usuario.nombre_completo}</div>
           <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>@{usuario.usuario}</div>

@@ -2,9 +2,40 @@ import React, { useState, useEffect } from 'react';
 
 const exercises = [
   { 
+    text: '¡Hola! Me llamo Randolfo',
+    svg: (
+      <svg width="40" height="40" viewBox="0 0 60 60" className="gym-illustration">
+        {/* Cuerpo */}
+        <ellipse cx="30" cy="35" rx="8" ry="12" fill="#FFB74D" />
+        {/* Cabeza */}
+        <circle cx="30" cy="20" r="6" fill="#FFB74D" />
+        {/* Brazo saludando */}
+        <g className="arms wave">
+          <ellipse cx="22" cy="28" rx="3" ry="8" fill="#FFB74D" transform="rotate(-20 22 28)" />
+          <ellipse cx="38" cy="28" rx="3" ry="8" fill="#FFB74D" transform="rotate(45 38 28)" />
+          {/* Mano saludando */}
+          <circle cx="42" cy="20" r="2.5" fill="#FFB74D" />
+          <path d="M40 18 Q42 16 44 18 Q42 20 40 18" fill="#FFB74D" />
+        </g>
+        {/* Piernas */}
+        <ellipse cx="26" cy="48" rx="3" ry="6" fill="#1976D2" />
+        <ellipse cx="34" cy="48" rx="3" ry="6" fill="#1976D2" />
+        {/* Ojos felices */}
+        <circle cx="28" cy="18" r="1" fill="#000" />
+        <circle cx="32" cy="18" r="1" fill="#000" />
+        {/* Sonrisa grande */}
+        <path d="M25 22 Q30 26 35 22" stroke="#000" strokeWidth="1.5" fill="none" />
+        {/* Corazón flotante */}
+        <g className="floating-heart">
+          <path d="M45 15 C45 12, 47 10, 49 12 C51 10, 53 12, 53 15 C53 18, 49 22, 49 22 C49 22, 45 18, 45 15 Z" fill="#FF69B4" opacity="0.8" />
+        </g>
+      </svg>
+    )
+  },
+  { 
     text: '¡Entrenando duro!',
     svg: (
-      <svg width="60" height="60" viewBox="0 0 60 60" className="gym-illustration">
+      <svg width="40" height="40" viewBox="0 0 60 60" className="gym-illustration">
         {/* Cuerpo */}
         <ellipse cx="30" cy="35" rx="8" ry="12" fill="#FFB74D" />
         {/* Cabeza */}
@@ -37,7 +68,7 @@ const exercises = [
   { 
     text: '¡Sigue así!',
     svg: (
-      <svg width="60" height="60" viewBox="0 0 60 60" className="gym-illustration">
+      <svg width="40" height="40" viewBox="0 0 60 60" className="gym-illustration">
         {/* Cuerpo */}
         <ellipse cx="30" cy="35" rx="8" ry="12" fill="#FFB74D" />
         {/* Cabeza */}
@@ -64,7 +95,7 @@ const exercises = [
   { 
     text: '¡Corriendo!',
     svg: (
-      <svg width="60" height="60" viewBox="0 0 60 60" className="gym-illustration">
+      <svg width="40" height="40" viewBox="0 0 60 60" className="gym-illustration">
         {/* Cuerpo inclinado hacia adelante */}
         <ellipse cx="30" cy="35" rx="8" ry="12" fill="#FFB74D" transform="rotate(-5 30 35)" />
         {/* Cabeza */}
@@ -107,7 +138,7 @@ function AnimatedGymBuddy() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentExercise(prev => (prev + 1) % exercises.length);
-    }, 4000); // Cambia cada 4 segundos
+    }, 3000); // Cambia cada 3 segundos
 
     return () => clearInterval(interval);
   }, []);
@@ -116,12 +147,11 @@ function AnimatedGymBuddy() {
 
   return (
     <div style={{ 
-      padding: '1rem 1.5rem', 
-      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+      padding: '0.75rem 1rem', 
       textAlign: 'center',
       background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
       borderRadius: '0.5rem',
-      margin: '0 0.5rem 0.5rem',
+      margin: '0 0.5rem',
       transition: 'all 0.3s ease'
     }}>
       <div style={{ 
@@ -133,7 +163,7 @@ function AnimatedGymBuddy() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        {currentExerciseData?.svg || <div style={{ fontSize: '2.5rem' }}>🏋️‍♂️</div>}
+        {currentExerciseData?.svg || <div style={{ fontSize: '2rem' }}>🏋️‍♂️</div>}
       </div>
       
       <div style={{ 
