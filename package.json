@@ -43,7 +43,8 @@
     "react-router-dom": "^6.20.0",
     "recharts": "^2.10.0",
     "serialport": "^13.0.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "terser": "^5.44.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
