@@ -1,86 +1,75 @@
 @echo off
-chcp 65001 > nul
-title NuevoGym - Instalación Sin Compilar
-color 0B
+title NuevoGym - Instalacion SIN compilar
 
-echo.
 echo ========================================
-echo   INSTALACION RAPIDA (SIN COMPILAR)
+echo    NUEVOGYM - INSTALACION SIN COMPILAR
 echo ========================================
 echo.
-echo Esta instalación usa binarios pre-compilados
-echo No requiere Visual Studio ni herramientas de C++
+echo Esta version NO compila modulos nativos
+echo Puede que algunas funciones no trabajen
 echo.
 
-cd C:\Users\itgym\OneDrive\Escritorio\nuevogym
+echo [1/5] Verificando Node.js...
+node --version 2>nul
+if %errorlevel% neq 0 (
+    echo ERROR: Node.js no instalado
+    pause
+    exit /b 1
+)
+echo OK
+echo.
 
-echo [1/4] Limpiando instalación anterior...
+echo [2/5] Limpiando...
 if exist node_modules rmdir /s /q node_modules 2>nul
-if exist dist rmdir /s /q dist 2>nul
-if exist package-lock.json del /q package-lock.json 2>nul
-echo ✅ Limpieza completada
+if exist package-lock.json del package-lock.json 2>nul
+echo OK
 echo.
 
-echo [2/4] Instalando dependencias (usando binarios pre-compilados)...
-echo ⏱️  Esto tomará 2-3 minutos...
+echo [3/5] Instalando SIN compilar...
+echo Esto puede tomar 3-5 minutos...
 echo.
-
-REM Configurar para NO compilar desde código fuente
-set npm_config_build_from_source=false
-set ELECTRON_SKIP_BINARY_DOWNLOAD=0
-
-REM Instalar sin scripts de compilación
-call npm install --legacy-peer-deps --prefer-offline --no-audit
-
+npm install --ignore-scripts --legacy-peer-deps
 if %errorlevel% neq 0 (
+    echo ERROR: Fallo instalacion
     echo.
-    echo ❌ Error al instalar dependencias
-    echo.
-    echo 💡 Intenta ejecutar como Administrador
+    echo Posibles causas:
+    echo - Sin conexion a internet
+    echo - Antivirus bloqueando
+    echo - Sin permisos
     echo.
     pause
     exit /b 1
 )
-
-echo.
-echo ✅ Dependencias instaladas correctamente
+echo OK
 echo.
 
-echo [3/4] Compilando frontend (React + Vite)...
-call npm run build
+echo [4/5] Instalando Electron...
+npm install electron --save-dev --ignore-scripts
+echo OK
+echo.
 
+echo [5/5] Construyendo frontend...
+npm run build
 if %errorlevel% neq 0 (
-    echo ❌ Error al compilar frontend
+    echo ERROR: Fallo construccion
     pause
     exit /b 1
 )
-
-echo ✅ Frontend compilado
-echo.
-
-echo [4/4] Verificando instalación...
-if not exist "dist\index.html" (
-    echo ❌ ERROR: Frontend no compilado correctamente
-    pause
-    exit /b 1
-)
-
-echo ✅ Verificación completada
+echo OK
 echo.
 
 echo ========================================
-echo   ✅ INSTALACION EXITOSA
+echo    INSTALACION COMPLETADA
 echo ========================================
 echo.
-echo 🎉 NuevoGym está listo para usar!
+echo ADVERTENCIA:
+echo - Base de datos puede no funcionar
+echo - Puerto serial puede no funcionar
 echo.
-echo 📌 Para iniciar:
-echo    Doble clic en: INICIAR-NUEVOGYM.bat
+echo PARA INICIAR:
+echo   npm start
 echo.
-echo 📌 Credenciales:
-echo    Usuario: admin
-echo    Contraseña: admin123
+echo Usuario: admin
+echo Password: admin123
 echo.
-
 pause
-
