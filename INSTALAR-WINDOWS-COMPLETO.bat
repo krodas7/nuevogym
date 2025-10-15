@@ -16,6 +16,14 @@ if %errorlevel% neq 0 (
     echo 🌐 Abriendo https://nodejs.org/
     start https://nodejs.org/
     echo ⏳ Por favor instala Node.js LTS y reinicia este script
+    echo.
+    echo 💡 Pasos para instalar Node.js:
+    echo    1. Descargar desde https://nodejs.org/
+    echo    2. Ejecutar el instalador
+    echo    3. Marcar "Add to PATH"
+    echo    4. Reiniciar PC
+    echo    5. Ejecutar este script nuevamente
+    echo.
     pause
     exit /b 1
 )
@@ -35,6 +43,14 @@ if %errorlevel% neq 0 (
     echo 🌐 Abriendo https://git-scm.com/
     start https://git-scm.com/
     echo ⏳ Por favor instala Git y reinicia este script
+    echo.
+    echo 💡 Pasos para instalar Git:
+    echo    1. Descargar desde https://git-scm.com/
+    echo    2. Ejecutar el instalador
+    echo    3. Usar configuración por defecto
+    echo    4. Reiniciar PC
+    echo    5. Ejecutar este script nuevamente
+    echo.
     pause
     exit /b 1
 )
@@ -42,17 +58,29 @@ if %errorlevel% neq 0 (
 echo ✅ Git instalado
 echo.
 
-REM Preguntar sobre Visual Studio Build Tools
-echo ❓ ¿Tienes Visual Studio Build Tools instalado? (s/n)
-set /p has_build_tools=
-if /i "%has_build_tools%"=="n" (
+REM Verificar Visual Studio Build Tools
+echo 🔍 Verificando Visual Studio Build Tools...
+where cl >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ Visual Studio Build Tools no encontrado
     echo 📥 Descargando Visual Studio Build Tools...
     echo 🌐 Abriendo https://visualstudio.microsoft.com/downloads/
     start https://visualstudio.microsoft.com/downloads/
-    echo ⏳ Por favor instala "Build Tools for Visual Studio 2022"
-    echo    Asegúrate de marcar "Desktop development with C++"
+    echo.
+    echo 💡 Pasos para instalar Build Tools:
+    echo    1. Descargar "Build Tools for Visual Studio 2022"
+    echo    2. Ejecutar el instalador
+    echo    3. Marcar "Desktop development with C++"
+    echo    4. Instalar
+    echo    5. Reiniciar PC
+    echo    6. Ejecutar este script nuevamente
+    echo.
     pause
+    exit /b 1
+) else (
+    echo ✅ Visual Studio Build Tools encontrado
 )
+echo.
 
 REM Ir al directorio del proyecto
 cd /d "%~dp0"
