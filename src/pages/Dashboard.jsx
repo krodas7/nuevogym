@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import { safeElectronCall, ElectronWarning } from '../utils/electronAPI.jsx';
 
 function Dashboard() {
   const [estadisticas, setEstadisticas] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cargandoGraficos, setCargandoGraficos] = useState(true);
+  const [clientesActivos, setClientesActivos] = useState([]);
+  const [simulandoAsistencia, setSimulandoAsistencia] = useState(false);
 
   useEffect(() => {
     console.log('Dashboard montado, electronAPI disponible:', !!window.electronAPI);
     cargarEstadisticas();
+    cargarClientesActivos();
   }, []);
 
   // Auto-actualizar dashboard cuando hay eventos del sensor
@@ -33,6 +36,17 @@ function Dashboard() {
       window.electronAPI.removeSensorDataListener();
     };
   }, []);
+
+  const cargarClientesActivos = async () => {
+    try {
+      const result = await safeElectronCall('getClientes');
+      if (result && result.success) {
+        setClientesActivos(result.data.filter(c => c.estado === 'activo'));
+      }
+    } catch (error) {
+      console.error('Error al cargar clientes:', error);
+    }
+  };
 
   const cargarEstadisticas = async () => {
     setLoading(true);
@@ -93,6 +107,52 @@ function Dashboard() {
     setTimeout(() => {
       setCargandoGraficos(false);
     }, 500);
+  };
+
+  const simularAsistencia = async () => {
+    if (clientesActivos.length === 0) {
+      alert('⚠️ No hay clientes activos para simular asistencia');
+      return;
+    }
+
+    setSimulandoAsistencia(true);
+    
+    // Seleccionar un cliente aleatorio
+    const clienteAleatorio = clientesActivos[Math.floor(Math.random() * clientesActivos.length)];
+    
+    try {
+      // Verificar si la membresía está vigente
+      const hoy = new Date();
+      const vencimiento = new Date(clienteAleatorio.fecha_vencimiento);
+      const membresiaVencida = vencimiento < hoy;
+      
+      if (membresiaVencida) {
+        alert(`⚠️ Membresía vencida\n\nCliente: ${clienteAleatorio.nombre}\nVencimiento: ${vencimiento.toLocaleDateString('es-GT')}\n\nPor favor, renueva la membresía del cliente.`);
+        setSimulandoAsistencia(false);
+        return;
+      }
+
+      // Registrar asistencia
+      const result = await safeElectronCall('registrarAsistencia', {
+        cliente_id: clienteAleatorio.id,
+        fecha_hora: new Date().toISOString(),
+        tipo_entrada: 'entrada',
+        metodo_verificacion: 'manual'
+      });
+
+      if (result && result.success) {
+        alert(`✅ Asistencia simulada\n\nCliente: ${clienteAleatorio.nombre}\nMembresía: ${clienteAleatorio.tipo_membresia}\nVence: ${vencimiento.toLocaleDateString('es-GT')}\n\nMétodo: Manual`);
+        
+        // Recargar estadísticas
+        cargarEstadisticas();
+      } else {
+        alert(`❌ Error: ${result?.error || 'Error desconocido'}`);
+      }
+    } catch (error) {
+      alert(`❌ Error al simular asistencia: ${error.message}`);
+    }
+    
+    setSimulandoAsistencia(false);
   };
 
   if (loading) {
@@ -161,15 +221,26 @@ function Dashboard() {
           <h1 className="page-title">Dashboard</h1>
           <p className="page-subtitle">Vista general del gimnasio</p>
         </div>
-        <button 
-          className="btn btn-outline btn-sm"
-          onClick={cargarEstadisticas}
-          disabled={loading}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-        >
-          <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          {loading ? 'Actualizando...' : 'Actualizar'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={simularAsistencia}
+            disabled={simulandoAsistencia || clientesActivos.length === 0}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <UserPlusIcon className={`w-4 h-4 ${simulandoAsistencia ? 'animate-spin' : ''}`} />
+            {simulandoAsistencia ? 'Simulando...' : '📋 Simular Asistencia'}
+          </button>
+          <button 
+            className="btn btn-outline btn-sm"
+            onClick={cargarEstadisticas}
+            disabled={loading}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            {loading ? 'Actualizando...' : 'Actualizar'}
+          </button>
+        </div>
       </div>
 
       {estadisticas.totalClientes === 0 && (
