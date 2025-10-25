@@ -62,6 +62,33 @@ function initDatabase() {
     )
   `);
 
+  // Migración: Agregar columna 'activo' si no existe
+  try {
+    const columns = db.prepare("PRAGMA table_info(membresias)").all();
+    const hasActivo = columns.some(col => col.name === 'activo');
+    if (!hasActivo) {
+      console.log('🔄 Agregando columna activo a tabla membresias...');
+      db.exec('ALTER TABLE membresias ADD COLUMN activo INTEGER DEFAULT 1');
+      // Actualizar registros existentes
+      db.exec('UPDATE membresias SET activo = 1 WHERE activo IS NULL');
+      console.log('✅ Columna activo agregada y datos actualizados');
+    }
+  } catch (error) {
+    console.log('ℹ️ No se pudo verificar/agregar columna activo:', error.message);
+  }
+  
+  // Migración similar para otras tablas si es necesario
+  try {
+    // Migración para tabla membresias - asegurar que existe
+    const tableExists = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='membresias'").get();
+    if (tableExists) {
+      const membershipsColumns = db.prepare("PRAGMA table_info(membresias)").all();
+      console.log('📋 Columnas en membresias:', membershipsColumns.map(c => c.name).join(', '));
+    }
+  } catch (error) {
+    console.log('ℹ️ Error al verificar tabla membresias:', error.message);
+  }
+
   // Crear tabla de asistencias
   db.exec(`
     CREATE TABLE IF NOT EXISTS asistencias (
