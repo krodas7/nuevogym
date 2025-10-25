@@ -183,6 +183,32 @@ function initDatabase() {
     insertMembresia.run('Trimestral', 90, 400.0, 'Membresía de 3 meses con 10% descuento', 1);
     insertMembresia.run('Semestral', 180, 750.0, 'Membresía de 6 meses con 20% descuento', 1);
     insertMembresia.run('Anual', 365, 1300.0, 'Membresía anual con 30% descuento', 1);
+    console.log('✅ Membresías por defecto creadas');
+  }
+
+  // Insertar cliente de prueba si no existe
+  const clientesCount = db.prepare('SELECT COUNT(*) as count FROM clientes').get();
+  if (clientesCount.count === 0) {
+    const hoy = new Date();
+    const vencimiento = new Date();
+    vencimiento.setDate(hoy.getDate() + 30); // 30 días desde hoy
+    
+    const insertCliente = db.prepare(`
+      INSERT INTO clientes (nombre, telefono, fecha_inicio, fecha_vencimiento, tipo_membresia, estado, huella_id, foto)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    
+    insertCliente.run(
+      'Cliente Demo',
+      '12345678',
+      hoy.toISOString().split('T')[0],
+      vencimiento.toISOString().split('T')[0],
+      'Mensual',
+      'activo',
+      null,
+      null
+    );
+    console.log('✅ Cliente de prueba creado');
   }
 
   // Función para obtener el próximo número de ticket
